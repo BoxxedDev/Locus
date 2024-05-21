@@ -1,9 +1,0 @@
-{
-  "stages": [
-    {
-      "type": "veil:blit",
-      "shader": "locus:atmosphere",
-      "out": "veil:post"
-    }
-  ]
-}

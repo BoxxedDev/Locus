@@ -1,0 +1,11 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "locus:inverted",
+      "in": "veil:first_person",
+      "out": "veil:post",
+      "clear": "false"
+    }
+  ]
+}
