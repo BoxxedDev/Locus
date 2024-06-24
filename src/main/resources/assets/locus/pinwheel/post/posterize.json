@@ -1,0 +1,11 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "locus:posterize",
+      "in": "minecraft:main",
+      "out": "veil:post",
+      "clear": "false"
+    }
+  ]
+}

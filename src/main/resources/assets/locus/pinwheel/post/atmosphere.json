@@ -2,9 +2,17 @@
   "stages": [
     {
       "type": "veil:blit",
+      "shader": "locus:sphere_inter",
+      "in": "minecraft:main",
+      "out": "locus:planetbuffer",
+      "clear": "false"
+    },
+    {
+      "type": "veil:blit",
       "shader": "locus:atmosphere",
-      "in":"veil:first_person",
-      "out": "veil:post"
+      "in": "locus:planetbuffer",
+      "out": "veil:post",
+      "clear": "false"
     }
   ]
 }

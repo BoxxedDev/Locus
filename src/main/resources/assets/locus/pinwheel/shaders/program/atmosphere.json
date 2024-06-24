@@ -1,3 +1,7 @@
 {
-  "fragment": "locus:atmosphere"
+  "fragment": "locus:atmosphere",
+  "vertex": "locus:base",
+  "textures": {
+    "PlanetTexture": "locus:textures/8k_earth_daymap.jpg"
+  }
 }

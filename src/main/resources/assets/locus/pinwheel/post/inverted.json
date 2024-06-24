@@ -3,7 +3,7 @@
     {
       "type": "veil:blit",
       "shader": "locus:inverted",
-      "in": "veil:first_person",
+      "in": "minecraft:main",
       "out": "veil:post",
       "clear": "false"
     }

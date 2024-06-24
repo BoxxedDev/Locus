@@ -1,5 +1,6 @@
 package boxxed.locus;
 
+import boxxed.locus.client.AtmosphereHandler;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.forge.event.ForgeVeilRendererEvent;
@@ -17,15 +18,15 @@ public class LocusClient {
     public static void onClientSetup(FMLClientSetupEvent event)
     {
     }
-/*
+
     @SubscribeEvent
     public static void onVeilRenderer(ForgeVeilRendererEvent event) {
         if (VeilRenderSystem.renderer() == null) {
             Locus.LOGGER.info("veilrendersystwm is null");
             return;}
         PostProcessingManager manager = VeilRenderSystem.renderer().getPostProcessingManager();
-        manager.add(new ResourceLocation(MODID, "inverted"));
+        manager.add(Locus.path("atmosphere"));
+        //AtmosphereHandler.update();
     }
-*/
 
 }

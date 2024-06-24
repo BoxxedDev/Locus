@@ -1,0 +1,10 @@
+{
+  "fragment": "locus:bloom_image",
+  "vertex": "locus:base",
+  "textures": {
+    "buffer_b": {
+      "type": "framebuffer",
+      "name": "locus:bloom_buf_b"
+    }
+  }
+}

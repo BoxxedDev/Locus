@@ -1,0 +1,11 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "locus:bloom_image",
+      "in": "minecraft:main",
+      "out": "veil:post",
+      "clear": "false"
+    }
+  ]
+}

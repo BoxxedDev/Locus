@@ -8,9 +8,9 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import static boxxed.locus.Locus.REGISTRATE;
 
 public class LocusBlockEntities {
-    public static final BlockEntityEntry<TestBE> TEST_BE = REGISTRATE.blockEntity("test_be", TestBE::new)
-            .validBlocks(LocusBlocks.TEST_BLOCK)
-            .register();
+    //public static final BlockEntityEntry<TestBE> TEST_BE = REGISTRATE.blockEntity("test_be", TestBE::new)
+    //        .validBlocks(LocusBlocks.TEST_BLOCK)
+    //        .register();
 
     public static void init() {}
 }
