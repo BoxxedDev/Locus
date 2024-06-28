@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 public class Locus {
     public static final String MODID = "locus";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final Registrate REGISTRATE = Registrate.create(MODID);
+    //public static final Registrate REGISTRATE = Registrate.create(MODID);
 
     public Locus() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

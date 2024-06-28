@@ -3,21 +3,21 @@
 
 uniform sampler2D DiffuseSampler0;
 uniform sampler2D DiffuseDepthSampler;
-uniform sampler2D PlanetTexture;
+uniform float GameTime;
 
 in vec2 texCoord;
 
 out vec4 fragColor;
 
-uniform float planetRadius = 10.;
-uniform float atmosphereRadius = 15.;
+uniform float planetRadius = 250.;
+uniform float atmosphereRadius = 255.;
 uniform float densityFalloff = 4.0;
 uniform int numInScatteringPoints= 10;
-uniform vec3 dirToSun = vec3(300,200,0);
 uniform float scatteringStrength = 20.;
 uniform int numOpticalDepthPoints = 10;
-uniform float MAX = 1000.0;
+uniform float MAX = 10000.0;
 uniform float PI = 3.14159265359;
+uniform vec3 planetCentre  = vec3(0,250,0);
 
 vec2 raySphere(vec3 sphereCentre, float sphereRadius, vec3 rayOrigin, vec3 rayDir) {
     vec3 offset = rayOrigin - sphereCentre;
@@ -39,19 +39,6 @@ vec2 raySphere(vec3 sphereCentre, float sphereRadius, vec3 rayOrigin, vec3 rayDi
     }
 
     return vec2(MAX, 0);
-}
-
-vec2 sphereIntersection(in vec3 p, in vec3 dir, in float r) {
-    float b = dot( p, dir );
-    float c = dot( p, p ) - r * r;
-
-    float d = b * b - c;
-    if ( d < 0.0 ) {
-        return vec2( MAX, -MAX );
-    }
-    d = sqrt( d );
-
-    return vec2( -b - d, -b + d );
 }
 
 float densityAtPoint(vec3 densitySamplePoint) {
@@ -79,6 +66,7 @@ vec3 calculateLight(vec3 rayOrigin, vec3 rayDir, float rayLength, vec3 originalC
     float stepSize = rayLength / (numInScatteringPoints - 1);
     vec3 inScatteredLight = vec3(0,0,0);
     float viewRayOpticalDepth = 0;
+    vec3 dirToSun = vec3(sin(GameTime*1000)*300,sin(GameTime*1000)*70,cos(GameTime*1000)*300);
 
     for (int i = 0; i < numInScatteringPoints; i ++) {
         vec2 intersection = raySphere(vec3(0), planetRadius, inScatterPoint, dirToSun);
@@ -100,16 +88,20 @@ void main() {
     vec4 originalCol = texture(DiffuseSampler0, texCoord);
 
     vec3 rayOrigin = VeilCamera.CameraPosition;
+    rayOrigin -= planetCentre;
     vec3 rayDir =  normalize(viewDirFromUv(texCoord));
 
     vec2 planetHit = raySphere(vec3(0), planetRadius, rayOrigin, rayDir);
-    float dstToSurface = length(viewPosFromDepthSample(texture(DiffuseDepthSampler, texCoord).r, texCoord));
+    float dstToSurface = length(viewPosFromDepthSample(texture(DiffuseDepthSampler, texCoord).r, texCoord)-planetCentre);
 
     vec2 hitInfo = raySphere(vec3(0), atmosphereRadius, rayOrigin, rayDir);
     float dstToAtmosphere = hitInfo.x;
 
     float dstThroughAtmosphere = min(hitInfo.y,  planetHit.x - dstToAtmosphere)/20.;
     float dstThroughAtmosphere2 = min(hitInfo.y, dstToSurface - dstToAtmosphere)/20.;
+
+    float dstToSurface2 = min(hitInfo.y,  (dstToSurface)/hitInfo.x*(length(VeilCamera.CameraPosition)/1000.));
+    float dstToSurfaceClamped = dstToSurface2 < 0.5 ? 0. : 1.;
 
     //Don't go below 400
     //Default earth is 700,530,440
@@ -120,19 +112,7 @@ void main() {
     float scatterB = pow(400 / wavelengths.z, 4) * scatteringStrength;
     vec3 scatteringCoefficients = vec3(scatterR, scatterG, scatterB);
 
-    vec3 worldPos = rayDir * hitInfo.x + rayOrigin;
-    vec3 worldNormal = normalize(worldPos);
-
-    // -0.5 to 0.5 range
-    float phi = atan(worldNormal.z, worldNormal.x) / (PI * 2.0);
-    // 0.0 to 1.0 range
-    float phi_frac = fract(phi);
-
-    vec2 uv = vec2(fwidth(phi) < fwidth(phi_frac) - 0.001 ? phi : phi_frac, acos(-worldNormal.y) / PI);
-
-    vec4 sphereTex = texture(PlanetTexture, uv);
-
-    if (dstThroughAtmosphere2 > 0) {
+    if (dstToSurfaceClamped > 0) {
         const float epsilon = 0.0001;
         vec3 pointInAtmosphere = rayOrigin + rayDir * dstToAtmosphere;
         vec3 light = calculateLight(pointInAtmosphere, rayDir, dstThroughAtmosphere - epsilon * 2, originalCol.rgb, scatteringCoefficients);
@@ -140,4 +120,11 @@ void main() {
     } else {
         fragColor = originalCol;
     }
+
 }
+
+
+
+
+
+

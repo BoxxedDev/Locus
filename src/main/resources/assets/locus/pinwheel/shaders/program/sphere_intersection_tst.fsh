@@ -4,6 +4,7 @@
 uniform sampler2D DiffuseSampler0;
 uniform sampler2D DiffuseDepthSampler;
 uniform sampler2D PlanetTexture;
+uniform float GameTime;
 
 in vec2 texCoord;
 
@@ -11,6 +12,8 @@ out vec4 fragColor;
 
 uniform float MAX = 1000.0;
 uniform float PI = 3.14159265359;
+uniform vec3 centerLoc = vec3(0,250,0);
+uniform float sphereRad = 250.;
 
 vec2 raySphere(vec3 sphereCentre, float sphereRadius, vec3 rayOrigin, vec3 rayDir) {
     vec3 offset = rayOrigin - sphereCentre;
@@ -35,31 +38,56 @@ vec2 raySphere(vec3 sphereCentre, float sphereRadius, vec3 rayOrigin, vec3 rayDi
 }
 
 void main() {
+    vec3 lightDir = vec3(sin(GameTime*1000)*300,0,cos(GameTime*1000)*300);
+
     vec4 originalCol = texture(DiffuseSampler0, texCoord);
 
     vec3 rayOrigin = VeilCamera.CameraPosition;
+    rayOrigin -= centerLoc;
     vec3 rayDir =  normalize(viewDirFromUv(texCoord));
-    float sphereRad = 10.;
 
     vec2 rayHit = raySphere(vec3(0), sphereRad, rayOrigin, rayDir);
 
     vec3 worldPos = rayDir * rayHit.x + rayOrigin;
     vec3 worldNormal = normalize(worldPos);
 
+    float lightDot = dot(worldNormal, lightDir);
+
     // -0.5 to 0.5 range
     float phi = atan(worldNormal.z, worldNormal.x) / (PI * 2.0);
     // 0.0 to 1.0 range
     float phi_frac = fract(phi);
 
-    vec2 uv = vec2(fwidth(phi) < fwidth(phi_frac) - 0.001 ? phi : phi_frac, acos(-worldNormal.y) / PI);
+    vec2 uv = vec2((fwidth(phi) < fwidth(phi_frac) - 0.001 ? phi : phi_frac) + (GameTime*100), acos(-worldNormal.y) / PI);
 
-    float dstToSurface = length(viewPosFromDepthSample(texture(DiffuseDepthSampler, texCoord).r, texCoord));
+    float dstToSurface = length(viewPosFromDepthSample(texture(DiffuseDepthSampler, texCoord).r, texCoord)-centerLoc);
+
     float dstToAtmosphere = rayHit.x;
-    float dstThroughAtmosphere = min(rayHit.y, dstToSurface - dstToAtmosphere)/50.;
+    float dstToSurface2 = min(rayHit.y,  (dstToSurface)/rayHit.x*(length(VeilCamera.CameraPosition)/1000.));
+    float dstToSurfaceClamped = dstToSurface2 < 0.5 ? 0. : 1.;
 
-    if (dstThroughAtmosphere > 0) {
-        fragColor = texture(PlanetTexture, -uv);
+    vec3 planetTexV = texture(PlanetTexture, -uv).rgb;
+    lightDot /= 200;
+    float newLightDot = sin(lightDot < 0.05 ? 0.05 : lightDot);
+    vec3 lighting = planetTexV * (newLightDot);
+
+    gl_FragDepth = texture(DiffuseDepthSampler, texCoord).r;
+    if ((dstToSurfaceClamped) > 0.99) {
+        fragColor = vec4(lighting, 1.);
     } else {
         fragColor = originalCol;
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,18 +1,29 @@
 {
   "stages": [
     {
+      "type":"veil:mask",
+      "red":true,
+      "green":true,
+      "blue":true,
+      "alpha":true,
+      "depth":true
+    },
+    {
       "type": "veil:blit",
       "shader": "locus:sphere_inter",
       "in": "minecraft:main",
       "out": "locus:planetbuffer",
-      "clear": "false"
+      "clear": "true"
     },
     {
       "type": "veil:blit",
       "shader": "locus:atmosphere",
       "in": "locus:planetbuffer",
       "out": "veil:post",
-      "clear": "false"
+      "clear": "true"
     }
   ]
 }
+
+
+
