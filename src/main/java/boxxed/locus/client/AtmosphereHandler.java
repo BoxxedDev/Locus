@@ -1,6 +1,7 @@
 package boxxed.locus.client;
 
 import boxxed.locus.Locus;
+import boxxed.locus.util.LocusUtil;
 import com.mojang.authlib.minecraft.client.MinecraftClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.post.PostProcessingManager;
@@ -12,8 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 public class AtmosphereHandler {
-    private static final ResourceLocation CUSTOM_POST_PIPELINE = Locus.path("atmosphere");
-    private static final ResourceLocation ATMOSPHERE_SHADER = Locus.path("atmosphere");
+    private static final ResourceLocation CUSTOM_POST_PIPELINE = LocusUtil.path("atmosphere");
+    private static final ResourceLocation ATMOSPHERE_SHADER = LocusUtil.path("atmosphere");
 
     public static void update() {
         VeilEventPlatform.INSTANCE.preVeilPostProcessing((pipelineName, pipeline, context) -> {

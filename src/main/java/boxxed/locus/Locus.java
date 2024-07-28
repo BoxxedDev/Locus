@@ -1,6 +1,5 @@
 package boxxed.locus;
 
-import boxxed.locus.client.AtmosphereHandler;
 import boxxed.locus.registry.LocusBlockEntities;
 import boxxed.locus.registry.LocusBlocks;
 import com.mojang.logging.LogUtils;
@@ -20,7 +19,7 @@ import org.slf4j.Logger;
 public class Locus {
     public static final String MODID = "locus";
     public static final Logger LOGGER = LogUtils.getLogger();
-    //public static final Registrate REGISTRATE = Registrate.create(MODID);
+    public static final Registrate REGISTRATE = Registrate.create(MODID);
 
     public Locus() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -32,6 +31,7 @@ public class Locus {
 
         MinecraftForge.EVENT_BUS.register(this);
 
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -40,9 +40,5 @@ public class Locus {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-    }
-
-    public static ResourceLocation path(String path) {
-        return new ResourceLocation(MODID, path);
     }
 }

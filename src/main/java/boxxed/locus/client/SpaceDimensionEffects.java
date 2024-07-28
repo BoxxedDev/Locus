@@ -12,7 +12,7 @@ public class SpaceDimensionEffects extends DimensionSpecialEffects {
     }
 
     public Vec3 getBrightnessDependentFogColor(Vec3 p_108908_, float p_108909_) {
-        return p_108908_.multiply((double)(p_108909_ * 0.94F + 0.06F), (double)(p_108909_ * 0.94F + 0.06F), (double)(p_108909_ * 0.91F + 0.09F));
+        return p_108908_.multiply((p_108909_ * 0.94F + 0.06F), (p_108909_ * 0.94F + 0.06F), (p_108909_ * 0.91F + 0.09F));
     }
 
     public boolean isFoggyAt(int p_108905_, int p_108906_) {

@@ -2,11 +2,12 @@
   "required": true,
   "minVersion": "0.8",
   "package": "boxxed.locus.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "Locus.refmap.json",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
+
   ],
   "client": [
+
   ],
   "injectors": {
     "defaultRequire": 1

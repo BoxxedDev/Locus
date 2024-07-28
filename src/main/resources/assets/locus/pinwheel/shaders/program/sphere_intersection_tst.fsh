@@ -63,7 +63,7 @@ void main() {
     float dstToSurface = length(viewPosFromDepthSample(texture(DiffuseDepthSampler, texCoord).r, texCoord)-centerLoc);
 
     float dstToAtmosphere = rayHit.x;
-    float dstToSurface2 = min(rayHit.y,  (dstToSurface)/rayHit.x*(length(VeilCamera.CameraPosition)/1000.));
+    float dstToSurface2 = min(rayHit.y, (dstToSurface)/rayHit.x*(length(VeilCamera.CameraPosition)/1000.));
     float dstToSurfaceClamped = dstToSurface2 < 0.5 ? 0. : 1.;
 
     vec3 planetTexV = texture(PlanetTexture, -uv).rgb;

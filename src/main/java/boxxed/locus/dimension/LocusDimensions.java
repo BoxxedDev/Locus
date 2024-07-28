@@ -1,7 +1,9 @@
 package boxxed.locus.dimension;
 
 import boxxed.locus.Locus;
+import boxxed.locus.util.LocusUtil;
 import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -21,11 +23,11 @@ import java.util.OptionalLong;
 
 public class LocusDimensions {
     public static final ResourceKey<LevelStem> MOON = ResourceKey.create(Registries.LEVEL_STEM,
-            Locus.path("moon"));
+            LocusUtil.path("moon"));
     public static final ResourceKey<Level> MOON_LEVEL = ResourceKey.create(Registries.DIMENSION,
-            Locus.path("moondim"));
+            LocusUtil.path("moondim"));
     public static final ResourceKey<DimensionType> MOON_DIM_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE,
-            Locus.path("moondim_type"));
+            LocusUtil.path("moondim_type"));
 
     public static void bootstrapType(BootstapContext<DimensionType> context) {
         context.register(MOON_DIM_TYPE, new DimensionType(
@@ -41,11 +43,13 @@ public class LocusDimensions {
                 256,
                 256,
                 BlockTags.INFINIBURN_OVERWORLD,
-                BuiltinDimensionTypes.END_EFFECTS,
+                LocusDimensionTypes.SPACE_EFFECTS,
                 1.0f,
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0),0)
         ));
     }
+
+    
 
     public static void bootstrapStem(BootstapContext<LevelStem> context) {
         HolderGetter<Biome> biomeRegistry = context.lookup(Registries.BIOME);

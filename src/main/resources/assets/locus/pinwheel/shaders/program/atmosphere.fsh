@@ -105,7 +105,7 @@ void main() {
 
     //Don't go below 400
     //Default earth is 700,530,440
-    vec3 wavelengths = vec3(700,530,440);
+    vec3 wavelengths = vec3(WAVELENGTH_RED_EARTH,WAVELENGTH_GREEN_EARTH,WAVELENGTH_BLUE_EARTH);
 
     float scatterR = pow(400 / wavelengths.x, 4) * scatteringStrength;
     float scatterG = pow(400 / wavelengths.y, 4) * scatteringStrength;

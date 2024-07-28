@@ -1,4 +1,15 @@
 {
   "fragment": "locus:atmosphere",
-  "vertex": "locus:base"
+  "vertex": "locus:base",
+  "definitions": [
+    {
+      "WAVELENGTH_RED_EARTH": 700
+    },
+    {
+      "WAVELENGTH_GREEN_EARTH": 530
+    },
+    {
+      "WAVELENGTH_BLUE_EARTH": 440
+    }
+  ]
 }

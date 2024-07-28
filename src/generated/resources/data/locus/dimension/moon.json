@@ -1,5 +1,5 @@
 {
-  "type": "locus:moon_type",
+  "type": "locus:moondim_type",
   "generator": {
     "type": "minecraft:noise",
     "biome_source": {
